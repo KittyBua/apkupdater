@@ -1,6 +1,7 @@
 package com.apkupdater.data.apkpure
 
 import android.net.Uri
+import androidx.core.net.toUri
 import com.apkupdater.data.ui.ApkPureSource
 import com.apkupdater.data.ui.AppInstalled
 import com.apkupdater.data.ui.AppUpdate
@@ -29,7 +30,7 @@ fun AppUpdateResponse.toAppUpdate(
     version_code,
     app?.versionCode ?: 0L,
     ApkPureSource,
-    if (app == null) Uri.parse(icon.thumbnail.url) else Uri.EMPTY,
+    if (app == null) icon.thumbnail.url.toUri() else Uri.EMPTY,
     if (asset.url.contains("/XAPK")) Link.Xapk(asset.url.replace("http://", "https://")) else Link.Url(asset.url.replace("http://", "https://")),
     if (app == null) description_short else whatsnew
 )

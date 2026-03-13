@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
@@ -20,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.foundation.lazy.grid.items
 import com.apkupdater.R
 import com.apkupdater.data.ui.AppsUiState
 import com.apkupdater.prefs.Prefs
@@ -35,8 +35,8 @@ import com.apkupdater.ui.component.TvInstalledGrid
 import com.apkupdater.ui.component.TvInstalledItem
 import com.apkupdater.ui.theme.statusBarColor
 import com.apkupdater.viewmodel.AppsViewModel
-import org.koin.androidx.compose.get
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 
 @Composable
@@ -55,7 +55,7 @@ fun AppsScreen(
 @Composable
 fun AppsScreenSuccess(viewModel: AppsViewModel, state: AppsUiState.Success) = Column {
 	AppsTopBar(viewModel, state.excludeSystem, state.excludeAppStore, state.excludeDisabled)
-	if (get<Prefs>().androidTvUi.get()) {
+	if (koinInject<Prefs>().androidTvUi.get()) {
 		TvInstalledGrid {
 			items(state.apps) {
 				TvInstalledItem(it) { app -> viewModel.ignore(app) }
@@ -86,6 +86,7 @@ fun AppsTopBar(
 ) = TopAppBar(
 	title = { Text(stringResource(R.string.tab_apps)) },
 	colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.statusBarColor()),
+	windowInsets = WindowInsets(0),
 	actions = {
 		IconButton(onClick = { viewModel.onSystemClick() }) {
 			ExcludeSystemIcon(excludeSystem)

@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
@@ -36,7 +37,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.foundation.lazy.grid.items
 import com.apkupdater.R
 import com.apkupdater.data.ui.SearchUiState
 import com.apkupdater.prefs.Prefs
@@ -49,8 +49,8 @@ import com.apkupdater.ui.component.TvSearchItem
 import com.apkupdater.ui.theme.statusBarColor
 import com.apkupdater.viewmodel.SearchViewModel
 import kotlinx.coroutines.delay
-import org.koin.androidx.compose.get
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 
 @Composable
@@ -73,7 +73,7 @@ fun SearchScreenSuccess(
 	viewModel: SearchViewModel
 ) = Column {
 	val uriHandler = LocalUriHandler.current
-	val prefs: Prefs = get()
+	val prefs: Prefs = koinInject()
 
 	if (prefs.androidTvUi.get()) {
 		TvInstalledGrid {
@@ -99,6 +99,7 @@ fun SearchScreenSuccess(
 fun SearchTopBar(viewModel: SearchViewModel) = TopAppBar(
 	title = { SearchText(viewModel) },
 	colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.statusBarColor()),
+	windowInsets = WindowInsets(0),
 	actions = {},
 	navigationIcon = {
 		Box(Modifier.minimumInteractiveComponentSize().size(40.dp), Alignment.Center) {

@@ -15,15 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import androidx.tv.foundation.lazy.grid.TvGridCells
-import androidx.tv.foundation.lazy.grid.TvLazyGridScope
-import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
 import com.apkupdater.prefs.Prefs
-import org.koin.androidx.compose.get
+import org.koin.compose.koinInject
 
 @Composable
 fun LoadingGrid() {
-    if (get<Prefs>().androidTvUi.get()) {
+    if (koinInject<Prefs>().androidTvUi.get()) {
         TvShimmeringGrid()
     } else {
         ShimmeringGrid()
@@ -69,8 +66,8 @@ fun InstalledGrid(
 )
 
 @Composable
-fun TvInstalledGrid(scroll: Boolean = true, content: TvLazyGridScope.() -> Unit) = TvLazyVerticalGrid(
-    columns = TvGridCells.Fixed(getTvNumColumns()),
+fun TvInstalledGrid(scroll: Boolean = true, content: LazyGridScope.() -> Unit) = LazyVerticalGrid(
+    columns = GridCells.Fixed(getTvNumColumns()),
     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
     verticalArrangement = Arrangement.spacedBy(8.dp),
     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -81,7 +78,7 @@ fun TvInstalledGrid(scroll: Boolean = true, content: TvLazyGridScope.() -> Unit)
 
 @Composable
 fun getNumColumns(orientation: Int): Int {
-    val prefs = get<Prefs>()
+    val prefs = koinInject<Prefs>()
     return if(orientation == Configuration.ORIENTATION_PORTRAIT)
         prefs.portraitColumns.get()
     else

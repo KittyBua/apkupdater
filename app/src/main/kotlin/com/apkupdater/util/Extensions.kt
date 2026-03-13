@@ -59,7 +59,7 @@ fun CoroutineScope.launchWithMutex(
 
 fun Boolean?.orFalse() = this ?: false
 
-fun PackageInfo.name(context: Context) = applicationInfo.loadLabel(context.packageManager).toString()
+fun PackageInfo.name(context: Context) = applicationInfo?.loadLabel(context.packageManager)?.toString() ?: ""
 
 fun Context.getAppIcon(packageName: String) = runCatching {
 	packageManager.getApplicationIcon(packageName)
@@ -89,10 +89,10 @@ fun ByteArray.toSha256(): String = MessageDigest
 
 fun PackageInfo.getSignature(): ByteArray = runCatching {
 	if (Build.VERSION.SDK_INT >= 28) {
-		signingInfo.apkContentsSigners[0].toByteArray()
+		signingInfo!!.apkContentsSigners[0].toByteArray()
 	} else {
 		@Suppress("DEPRECATION")
-		signatures[0].toByteArray()
+		signatures!![0].toByteArray()
 	}
 }.getOrDefault(ByteArray(0))
 
@@ -109,8 +109,7 @@ fun millisUntilHour(hour: Int): Long {
 }
 
 suspend fun AtomicBoolean.lock() {
-	while (get()) yield()
-	set(true)
+	while (!compareAndSet(false, true)) yield()
 }
 
 fun AtomicBoolean.unlock() = set(false)
@@ -159,5 +158,5 @@ fun filterVersionTag(version: String) = version
 	//.replace(Regex("\\D+\$"), "") // In case we want to remove non-numeric at end too
 
 fun Float.to2f() = String
-	.format("%.2f", this)
+	.format(Locale.getDefault(), "%.2f", this)
 	.replace('.', DecimalFormatSymbols.getInstance(Locale.getDefault()).decimalSeparator)

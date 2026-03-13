@@ -1,9 +1,9 @@
 package com.apkupdater.repository
 
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.util.Log
+import androidx.core.net.toUri
 import com.apkupdater.data.apkmirror.AppExistsRequest
 import com.apkupdater.data.apkmirror.AppExistsResponseApk
 import com.apkupdater.data.apkmirror.AppExistsResponseData
@@ -65,7 +65,7 @@ class ApkMirrorRepository(
             AppUpdate(
                 name = h5[it].attr("title"),
                 link = Link.Url("$baseUrl${h5[it].selectFirst("a")?.attr("href")}"),
-                iconUri = Uri.parse("$baseUrl${img[it].attr("src")}".replace("=32", "=128")),
+                iconUri = "$baseUrl${img[it].attr("src")}".replace("=32", "=128").toUri(),
                 version = "?",
                 oldVersion = "?",
                 versionCode = 0L,

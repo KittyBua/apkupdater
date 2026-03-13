@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
@@ -22,11 +23,11 @@ import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.foundation.lazy.grid.items
 import com.apkupdater.R
 import com.apkupdater.data.ui.AppUpdate
 import com.apkupdater.prefs.Prefs
 import com.apkupdater.ui.component.DefaultErrorScreen
+import com.apkupdater.ui.component.DownloadIcon
 import com.apkupdater.ui.component.EmptyGrid
 import com.apkupdater.ui.component.InstalledGrid
 import com.apkupdater.ui.component.LoadingGrid
@@ -36,7 +37,7 @@ import com.apkupdater.ui.component.TvUpdateItem
 import com.apkupdater.ui.component.UpdateItem
 import com.apkupdater.ui.theme.statusBarColor
 import com.apkupdater.viewmodel.UpdatesViewModel
-import org.koin.androidx.compose.get
+import org.koin.compose.koinInject
 
 
 @Composable
@@ -57,7 +58,13 @@ fun UpdatesTopBar(viewModel: UpdatesViewModel) = TopAppBar(
 		Text(stringResource(R.string.tab_updates))
 	},
 	colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.statusBarColor()),
+	windowInsets = WindowInsets(0),
 	actions = {
+		if(koinInject<Prefs>().newInstaller.get()) {
+			IconButton(onClick = { viewModel.installAll() }) {
+				DownloadIcon(stringResource(R.string.install_all))
+			}
+		}
 		IconButton(onClick = { viewModel.refresh() }) {
 			RefreshIcon(stringResource(R.string.refresh_updates))
 		}
@@ -84,7 +91,7 @@ fun UpdatesScreenSuccess(
 	updates: List<AppUpdate>
 ) = Column {
 	val handler = LocalUriHandler.current
-	val tv = get<Prefs>().androidTvUi.get()
+	val tv = koinInject<Prefs>().androidTvUi.get()
 
 	UpdatesTopBar(viewModel)
 
