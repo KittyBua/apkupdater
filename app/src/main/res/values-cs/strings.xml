@@ -9,8 +9,8 @@
     <string name="ignore_cd">Ignorovat aplikaci</string>
     <string name="unignore_cd">Zrušit ignorování aplikace</string>
     <string name="refresh_updates">Vyhledat aktualizace</string>
-    <string name="exclude_system_apps">Vyjmotu systémové aplikace</string>
-    <string name="include_system_apps">zahrnout systémové aplikace</string>
+    <string name="exclude_system_apps">Vyjmout systémové aplikace</string>
+    <string name="include_system_apps">Zahrnout systémové aplikace</string>
     <string name="exclude_app_store">Vyjmout Obchod s aplikacemi</string>
     <string name="include_app_store">Zahrnout Obchod s aplikacemi</string>
     <string name="exclude_disabled_apps">Vyjmout zakázané aplikace</string>
@@ -19,7 +19,7 @@
     <string name="install_all">Instaloat vše</string>
     <string name="app_cd">Ikona aplikace</string>
     <string name="install_success">%1$s nainstalováno.</string>
-    <string name="install_failure">%1$s se nepovedla nainstalovat.</string>
+    <string name="install_failure">%1$s se nepovedlo nainstalovat.</string>
     <string name="root_install_not_supported">Instalace této aplikace pomocí rootu není podporována.</string>
 
     // Settings
