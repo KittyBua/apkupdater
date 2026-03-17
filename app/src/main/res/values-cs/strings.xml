@@ -15,7 +15,7 @@
     <string name="include_app_store">Zahrnout Obchod s aplikacemi</string>
     <string name="exclude_disabled_apps">Vyjmout zakázané aplikace</string>
     <string name="include_disabled_apps">Zahrnout zakázané aplikac</string>
-    <string name="install_cd">Instalovat aplikaci</string>
+    <string name="install_cd">Instalovat</string>
     <string name="install_all">Instaloat vše</string>
     <string name="app_cd">Ikona aplikace</string>
     <string name="install_success">%1$s nainstalováno.</string>
